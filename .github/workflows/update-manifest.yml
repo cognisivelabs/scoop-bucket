@@ -1,0 +1,59 @@
+name: Update Manifest
+
+on:
+  repository_dispatch:
+    types: [update-manifest]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update recall manifest
+        run: |
+          VERSION="${{ github.event.client_payload.version }}"
+          SHA64="${{ github.event.client_payload.sha256_64 }}"
+          SHA_ARM="${{ github.event.client_payload.sha256_arm64 }}"
+
+          cat > recall.json << MANIFEST
+          {
+            "version": "${VERSION}",
+            "description": "Your external memory for the terminal. Save, search, and execute commands.",
+            "homepage": "https://github.com/cognisivelabs/recall-cli",
+            "license": "MIT",
+            "architecture": {
+              "64bit": {
+                "url": "https://github.com/cognisivelabs/recall-cli/releases/download/v${VERSION}/recall_windows_amd64.zip",
+                "hash": "${SHA64}"
+              },
+              "arm64": {
+                "url": "https://github.com/cognisivelabs/recall-cli/releases/download/v${VERSION}/recall_windows_arm64.zip",
+                "hash": "${SHA_ARM}"
+              }
+            },
+            "bin": "recall.exe",
+            "checkver": {
+              "github": "https://github.com/cognisivelabs/recall-cli"
+            },
+            "autoupdate": {
+              "architecture": {
+                "64bit": {
+                  "url": "https://github.com/cognisivelabs/recall-cli/releases/download/v\$version/recall_windows_amd64.zip"
+                },
+                "arm64": {
+                  "url": "https://github.com/cognisivelabs/recall-cli/releases/download/v\$version/recall_windows_arm64.zip"
+                }
+              }
+            }
+          }
+          MANIFEST
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add recall.json
+          git commit -m "Update recall to ${{ github.event.client_payload.version }}"
+          git push
