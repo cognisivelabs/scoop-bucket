@@ -1,16 +1,16 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Your external memory for the terminal. Save, search, and execute commands.",
   "homepage": "https://github.com/cognisivelabs/recall-cli",
   "license": "MIT",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/cognisivelabs/recall-cli/releases/download/v0.2.0/recall_windows_amd64.zip",
-      "hash": ""
+      "url": "https://github.com/cognisivelabs/recall-cli/releases/download/v0.3.0/recall_windows_amd64.zip",
+      "hash": "6af37f9289213370316f12fd7ee68deaa6000b9f77e4da8d67a31f2c2c2d620e"
     },
     "arm64": {
-      "url": "https://github.com/cognisivelabs/recall-cli/releases/download/v0.2.0/recall_windows_arm64.zip",
-      "hash": ""
+      "url": "https://github.com/cognisivelabs/recall-cli/releases/download/v0.3.0/recall_windows_arm64.zip",
+      "hash": "56240bec30752cb5d3d457cd71ca6faa8bae4cad24ee54af8bfc77dd77078cd0"
     }
   },
   "bin": "recall.exe",
